@@ -1,14 +1,17 @@
+using BetterTravel.Application.Features.CityEvents;
+using BetterTravel.Application.Features.CityEvents.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BetterTravel.API.Controllers;
 
 [ApiController]
-public class WarsawLookupController : ControllerBase
+public class WarsawLookupController(ICityEventsFetcher eventsFetcher) : ControllerBase
 {
     [HttpGet("/api/better-travel/warsaw/events")]
-    public IActionResult GetEvents([FromQuery] DateTime from, [FromQuery] DateTime to)
+    public async Task<ActionResult<CityEventDto>> GetEvents([FromQuery] DateTime from, [FromQuery] DateTime to)
     {
-        // https://dane.um.warszawa.pl/pl/catalogue/ba202e4b-dfa9-440c-83c0-0b3517520cb8
-        return Ok();
+        var events = await eventsFetcher.FetchAsync(new EventFetchFilterDto(from, to, "Warsaw"));
+
+        return Ok(events);
     }
 }
