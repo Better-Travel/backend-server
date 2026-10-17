@@ -7,7 +7,7 @@ internal record WarsawEvent
 {
     public required string Title { get; init; }
     
-    public required string Description { get; init; }
+    public string? Description { get; init; }
     
     [JsonPropertyName("address")]
     public IReadOnlyCollection<Address> Addresses { get; init; } = [];

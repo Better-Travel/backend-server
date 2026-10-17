@@ -4,14 +4,17 @@ using BetterTravel.Application.Features.CityEvents.Dtos;
 using BetterTravel.Entities.ValueObjects;
 using BetterTravel.Infrastructure.Warsaw.Models;
 using BetterTravel.Infrastructure.Warsaw.ValueObjects;
+using Microsoft.Extensions.Options;
 
 namespace BetterTravel.Infrastructure.Warsaw;
 
 internal class WarsawClient(
-    WarsawClientOptions clientOptions,
+    IOptions<WarsawClientOptions> clientOptions,
     IHttpClientFactory httpClientFactory
     ) : ICityClient
 {
+    private readonly WarsawClientOptions _clientOptions = clientOptions.Value;
+    
     public string City => "Warsaw";
 
     private const string ClientName = "BetterTravel";
@@ -20,12 +23,12 @@ internal class WarsawClient(
 
     public async Task<IReadOnlyCollection<CityEventDto>> GetEventsAsync()
     {
-        const string endpointRequest = "/get_bmm_kalendarz_wydarzen";
+        const string endpointRequest = "action/get_bmm_kalendarz_wydarzen";
         
         using var client = httpClientFactory.CreateClient(ClientName);
         
         client.BaseAddress = new Uri(BaseUrl);
-        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {clientOptions.Token}");
+        client.DefaultRequestHeaders.Add("Authorization", $"{_clientOptions.Token}");
 
         var response = await client.PostAsync(endpointRequest, null);
         var events = await response.Content.ReadFromJsonAsync<List<WarsawEvent>>();
@@ -112,8 +115,29 @@ internal class WarsawClient(
         return new OccurrenceDto(warsawEvent.From, warsawEvent.To);
     }
     
-    private static EventImageDto? MapImages(WarsawEvent warsawEvent) =>
-        warsawEvent.Image == null ? 
-            null : 
-            new EventImageDto(new Uri(warsawEvent.Image.Highlighted.Path), new Uri(warsawEvent.Image.Small.Path));
+    private static EventImageDto? MapImages(WarsawEvent warsawEvent)
+    {
+        if (warsawEvent.Image is null)
+        {
+            return null;
+        }
+
+        Uri? highlightedImageUri = null;
+
+        if (warsawEvent.Image.Highlighted?.Path is not null)
+        {
+            highlightedImageUri = new Uri(warsawEvent.Image.Highlighted.Path);
+        }
+
+        Uri? smallImageUri = null;
+
+        if (warsawEvent.Image.Small?.Path is not null)
+        {
+            smallImageUri = new Uri(warsawEvent.Image.Small.Path);
+        }
+
+        return warsawEvent.Image == null
+            ? null
+            : new EventImageDto(highlightedImageUri, smallImageUri);
+    }
 }

@@ -1,6 +1,7 @@
 using BetterTravel.Application.Features.CityEvents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace BetterTravel.Infrastructure.Warsaw;
 
@@ -11,6 +12,8 @@ public static class WarsawInfrastructureExtension
         IConfiguration configuration
         )
     {
+        services.AddHttpClient();
+        
         services.AddOptions<WarsawClientOptions>()
             .Bind(configuration.GetSection(WarsawClientOptions.Name))
             .ValidateDataAnnotations();
