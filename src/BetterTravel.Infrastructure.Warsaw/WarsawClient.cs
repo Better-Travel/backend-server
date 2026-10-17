@@ -29,8 +29,11 @@ internal class WarsawClient(
 
         var response = await client.PostAsync(endpointRequest, null);
         var events = await response.Content.ReadFromJsonAsync<List<WarsawEvent>>();
+
+        var filteredEvents = events.Where(e => e.Map is null);
         
-        throw new NotImplementedException();
+        // TODO: Handle errors
+        return [.. filteredEvents.Select(MapEvent)];
     }
 
     private static CityEventDto MapEvent(WarsawEvent warsawEvent)
