@@ -485,3 +485,6 @@ $RECYCLE.BIN/
 
 # Config files
 appsettings.*.json
+
+# AI
+.junie

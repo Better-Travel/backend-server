@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="src/BetterTravel.API/BetterTravel.API.csproj" />
+  <Project Path="src/BetterTravel.Application/BetterTravel.Application.csproj" />
+  <Project Path="src/BetterTravel.Entities/BetterTravel.Entities.csproj" />
+  <Project Path="src/BetterTravel.Infrastructure.Warsaw/BetterTravel.Infrastructure.Warsaw.csproj" />
 </Solution>
