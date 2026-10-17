@@ -1,4 +1,6 @@
-﻿namespace BetterTravel.Entities;
+﻿using BetterTravel.Entities.ValueObjects;
+
+namespace BetterTravel.Entities;
 
 public class CityEvent
 {
@@ -7,10 +9,8 @@ public class CityEvent
     public string Description { get; set; }
     
     public Uri Url { get; set; }
-    
-    public long Latitude { get; set; }
-    
-    public long Longitude { get; set; }
+
+    public IList<GeoCoordinate> Coordinates { get; set; } = [];
     
     public string LocationName { get; set; }
     
@@ -23,4 +23,6 @@ public class CityEvent
     public DateTime EndDate { get; set; }
     
     public bool IsRepeatable { get; set; }
+    
+    public Uri[] Images { get; set; } = [];
 }

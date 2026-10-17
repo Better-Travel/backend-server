@@ -21,4 +21,9 @@ internal record WarsawEvent
     public required Uri Url { get; init; }
     
     public Map? Map { get; init; }
+    
+    [JsonPropertyName("category")] 
+    public IReadOnlyCollection<Category> Categories { get; init; } = [];
+    
+    public EventImage? Image { get; init; }
 }

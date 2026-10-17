@@ -1,3 +1,4 @@
+using BetterTravel.Application.Features.CityEvents.Dtos;
 using BetterTravel.Entities;
 
 namespace BetterTravel.Application.Features.CityEvents;
@@ -6,5 +7,5 @@ public interface ICityClient
 {
     string City { get; }
 
-    Task<CityEventDto> GetEventsAsync();
+    Task<IReadOnlyCollection<CityEventDto>> GetEventsAsync();
 }
