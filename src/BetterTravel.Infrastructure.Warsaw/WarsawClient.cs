@@ -20,6 +20,11 @@ internal class WarsawClient(
         var response = await client.PostAsync(endpointRequest, null);
         var events = await response.Content.ReadFromJsonAsync<List<WarsawEvent>>();
 
+        if (response.IsSuccessStatusCode == false || events is null)
+        {
+            throw new Exception("Failed to fetch events");
+        }
+
         var filteredEvents = events.Where(e => e.Map is null);
         
         // TODO: Handle errors

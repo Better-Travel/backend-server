@@ -4,15 +4,15 @@ namespace BetterTravel.Entities;
 
 public class CityEvent
 {
-    public string Title { get; set; }
+    public required string Title { get; set; }
     
-    public string Description { get; set; }
+    public string? Description { get; set; }
     
-    public Uri Url { get; set; }
+    public Uri? Url { get; set; }
 
     public IList<GeoCoordinate> Coordinates { get; set; } = [];
     
-    public string LocationName { get; set; }
+    //public string LocationName { get; set; }
     
     public string? EventType { get; set; }
     
