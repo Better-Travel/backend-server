@@ -8,7 +8,7 @@ namespace BetterTravel.API.Controllers;
 public class WarsawLookupController(ICityEventsFetcher eventsFetcher) : ControllerBase
 {
     [HttpGet("/api/better-travel/warsaw/events")]
-    public async Task<ActionResult<CityEventDto>> GetEvents([FromQuery] DateTime from, [FromQuery] DateTime to)
+    public async Task<ActionResult<IReadOnlyCollection<CityEventDto>>> GetEvents([FromQuery] DateTime? from, [FromQuery] DateTime? to)
     {
         var events = await eventsFetcher.FetchAsync(new EventFetchFilterDto(from, to, "Warsaw"));
 

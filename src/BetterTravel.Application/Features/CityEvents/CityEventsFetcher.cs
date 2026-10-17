@@ -28,6 +28,6 @@ public class CityEventsFetcher(IEnumerable<ICityClient> cityClients) : ICityEven
             return true;
         }
         
-        return occurence.From >= To && occurence.To >= To;
+        return occurence.From <= To && occurence.To >= From;
     }
 }

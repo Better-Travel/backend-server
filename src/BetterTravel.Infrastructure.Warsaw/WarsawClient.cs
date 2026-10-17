@@ -4,31 +4,18 @@ using BetterTravel.Application.Features.CityEvents.Dtos;
 using BetterTravel.Entities.ValueObjects;
 using BetterTravel.Infrastructure.Warsaw.Models;
 using BetterTravel.Infrastructure.Warsaw.ValueObjects;
-using Microsoft.Extensions.Options;
 
 namespace BetterTravel.Infrastructure.Warsaw;
 
 internal class WarsawClient(
-    IOptions<WarsawClientOptions> clientOptions,
-    IHttpClientFactory httpClientFactory
+    HttpClient client
     ) : ICityClient
 {
-    private readonly WarsawClientOptions _clientOptions = clientOptions.Value;
-    
     public string City => "Warsaw";
-
-    private const string ClientName = "BetterTravel";
-    
-    private const string BaseUrl = "https://dane.um.warszawa.pl/api/action";
 
     public async Task<IReadOnlyCollection<CityEventDto>> GetEventsAsync()
     {
         const string endpointRequest = "action/get_bmm_kalendarz_wydarzen";
-        
-        using var client = httpClientFactory.CreateClient(ClientName);
-        
-        client.BaseAddress = new Uri(BaseUrl);
-        client.DefaultRequestHeaders.Add("Authorization", $"{_clientOptions.Token}");
 
         var response = await client.PostAsync(endpointRequest, null);
         var events = await response.Content.ReadFromJsonAsync<List<WarsawEvent>>();
