@@ -1,0 +1,10 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_HTTP_PORTS: "8080"
+      Cities__Warsaw__Token: ${WARSAW_API_TOKEN:?Set WARSAW_API_TOKEN in your .env file}

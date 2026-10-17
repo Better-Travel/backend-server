@@ -1,0 +1,10 @@
+.git
+.vs
+.idea
+.junie
+**/bin/
+**/obj/
+**/.env
+**/.env.*
+*.user
+*.suo
