@@ -8,7 +8,7 @@ public record CityEventDto(
     string LocationName,
     string[] EventCategories,
     string? Address,
-    OccurrencesDto[] Occurrences,
+    OccurrenceDto[] Occurrences,
     bool IsRepeatable,
     EventImageDto? Image
     );

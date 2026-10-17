@@ -57,9 +57,9 @@ internal class WarsawClient(
         return new GeoCoordinateDto(coordinates.ElementAt(latitudeIndex), coordinates.ElementAt(longitudeIndex));
     }
     
-    private static OccurrencesDto MapOccurrences(Occurrence warsawEvent)
+    private static OccurrenceDto MapOccurrences(Occurrence warsawEvent)
     {
-        return new OccurrencesDto(warsawEvent.From, warsawEvent.To);
+        return new OccurrenceDto(warsawEvent.From, warsawEvent.To);
     }
     
     private static EventImageDto? MapImages(WarsawEvent warsawEvent) =>

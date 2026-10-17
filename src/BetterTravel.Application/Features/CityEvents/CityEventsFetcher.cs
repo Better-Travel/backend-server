@@ -8,6 +8,26 @@ public class CityEventsFetcher(IEnumerable<ICityClient> cityClients) : ICityEven
     {
         var client = cityClients.Single(client => string.Equals(client.City, filter.City));
 
-        return await client.GetEventsAsync();
+        var cityEvents = await client.GetEventsAsync();
+        
+        if (filter.From is null || filter.To is null)
+        {
+            return cityEvents;
+        }
+        
+         return cityEvents
+             .Where(e => 
+                 e.Occurrences.Any(o => IsEventInGivenDateRange(o, filter.From.Value, filter.To.Value)))
+             .ToArray();
+    }
+
+    private static bool IsEventInGivenDateRange(OccurrenceDto occurence, DateTime From, DateTime To)
+    {
+        if (From >= occurence.From && From <= occurence.To)
+        {
+            return true;
+        }
+        
+        return occurence.From >= To && occurence.To >= To;
     }
 }
