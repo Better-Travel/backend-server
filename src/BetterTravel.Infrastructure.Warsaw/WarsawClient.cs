@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using BetterTravel.Application.Features.CityEvents;
 using BetterTravel.Infrastructure.Warsaw.Models;
 
 namespace BetterTravel.Infrastructure.Warsaw;
@@ -6,9 +7,9 @@ namespace BetterTravel.Infrastructure.Warsaw;
 internal class WarsawClient(
     WarsawClientOptions clientOptions,
     IHttpClientFactory httpClientFactory
-    )
+    ) : ICityClient
 {
-    public static string City => "Warsaw";
+    public string City => "Warsaw";
 
     private const string ClientName = "BetterTravel";
     

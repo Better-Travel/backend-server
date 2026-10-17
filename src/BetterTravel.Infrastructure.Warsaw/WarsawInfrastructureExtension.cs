@@ -1,3 +1,4 @@
+using BetterTravel.Application.Features.CityEvents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,7 +15,7 @@ public static class WarsawInfrastructureExtension
             .Bind(configuration.GetSection(WarsawClientOptions.Name))
             .ValidateDataAnnotations();
         
-        services.AddScoped<WarsawClient>();
+        services.AddScoped<ICityClient, WarsawClient>();
         
         return services;
     }

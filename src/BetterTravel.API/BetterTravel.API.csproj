@@ -14,4 +14,8 @@
       <ProjectReference Include="..\BetterTravel.Infrastructure.Warsaw\BetterTravel.Infrastructure.Warsaw.csproj" />
     </ItemGroup>
 
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    </PropertyGroup>
+
 </Project>

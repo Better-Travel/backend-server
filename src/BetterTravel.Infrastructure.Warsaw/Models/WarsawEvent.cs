@@ -9,7 +9,7 @@ internal record WarsawEvent
     
     public required string Description { get; init; }
     
-    public required Address Address { get; init; }
+    public Address? Address { get; init; }
 
     [JsonPropertyName("occurrence")] 
     public IReadOnlyCollection<Occurrence> Occurrences { get; init; } = [];
@@ -20,5 +20,5 @@ internal record WarsawEvent
     
     public required Uri Url { get; init; }
     
-    public required Map Map { get; init; }
+    public Map? Map { get; init; }
 }
