@@ -15,7 +15,7 @@ internal class WarsawClient(
     
     private const string BaseUrl = "https://dane.um.warszawa.pl/api/action";
 
-    public async Task GetEventsAsync()
+    public async Task<CityEventDto> GetEventsAsync()
     {
         const string endpointRequest = "/get_bmm_kalendarz_wydarzen";
         

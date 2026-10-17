@@ -9,4 +9,8 @@
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\BetterTravel.Entities\BetterTravel.Entities.csproj" />
+    </ItemGroup>
+
 </Project>
