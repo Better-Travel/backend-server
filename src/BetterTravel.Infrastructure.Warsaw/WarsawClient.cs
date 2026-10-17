@@ -28,26 +28,73 @@ internal class WarsawClient(
         client.DefaultRequestHeaders.Add("Authorization", $"Bearer {clientOptions.Token}");
 
         var response = await client.PostAsync(endpointRequest, null);
-        var events = await response.Content.ReadFromJsonAsync<WarsawEvent>();
+        var events = await response.Content.ReadFromJsonAsync<List<WarsawEvent>>();
         
         throw new NotImplementedException();
     }
 
     private static CityEventDto MapEvent(WarsawEvent warsawEvent)
     {
+        IEnumerable<GeoCoordinateDto> locations;
+
+        if (warsawEvent.Map is null || warsawEvent.Map.Features.Count == 0)
+        {
+            locations = [];
+        }
+        else
+        {
+            locations = warsawEvent.Map.Features.Select(f => MapCoordinate(f.Geometry.Coordinates));   
+        }
+
         return new CityEventDto(
             warsawEvent.Title,
             warsawEvent.Description,
             warsawEvent.Url.ToString(),
-            warsawEvent.Map!.Features.Select(f => MapCoordinate(f.Geometry.Coordinates)).ToArray(),
-             "",
-             [.. warsawEvent.Categories.Select(c => c.Name)],
-            "",
+            [.. locations],
+            MapLocationNames(warsawEvent),
+            [.. warsawEvent.Categories.Select(c => c.Name)],
+            MapAddresses(warsawEvent),
             [.. warsawEvent.Occurrences.Select(MapOccurrences)],
             warsawEvent.Occurrences.Any(o => o.Daily),
             MapImages(warsawEvent)
         );
     }
+
+    private static string[] MapLocationNames(WarsawEvent warsawEvent) =>
+    [
+        .. warsawEvent.Addresses
+            .Select(a => a.Name?.Trim())
+            .Where(n => !string.IsNullOrEmpty(n))
+            .Distinct()
+            .Select(n => n!)
+    ];
+
+    private static string[] MapAddresses(WarsawEvent warsawEvent)
+    {
+        var addresses = warsawEvent.Addresses
+            .Select(a => JoinNonEmpty(", ", a.Street, a.PostCodeAndOffice))
+            .Where(a => a.Length > 0)
+            .Distinct()
+            .ToArray();
+
+        if (addresses.Length > 0)
+        {
+            return addresses;
+        }
+
+        return (warsawEvent.Map?.Features ?? [])
+            .Where(f => f.Property != null)
+            .Select(f => JoinNonEmpty(
+                ", ",
+                JoinNonEmpty(" ", f.Property!.ShortStreetName, f.Property.StreetNumber),
+                f.Property.District))
+            .Where(a => a.Length > 0)
+            .Distinct()
+            .ToArray();
+    }
+
+    private static string JoinNonEmpty(string separator, params string?[] parts) =>
+        string.Join(separator, parts.Where(p => !string.IsNullOrWhiteSpace(p)).Select(p => p!.Trim()));
 
     private static GeoCoordinateDto MapCoordinate(IReadOnlyCollection<double> coordinates)
     {

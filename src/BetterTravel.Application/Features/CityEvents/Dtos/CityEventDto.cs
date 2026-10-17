@@ -5,9 +5,9 @@ public record CityEventDto(
     string Description, 
     string Url,
     GeoCoordinateDto[] Locations,
-    string LocationName,
+    string[] LocationNames,
     string[] EventCategories,
-    string? Address,
+    string[] Addresses,
     OccurrenceDto[] Occurrences,
     bool IsRepeatable,
     EventImageDto? Image
