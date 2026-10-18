@@ -1,4 +1,4 @@
-namespace BetterTravel.Application.Features.CityEvents.Dtos;
+namespace BetterTravel.Application.Features.Cities.Events.Dtos;
 
 public record CityEventDto(
     string Title, 

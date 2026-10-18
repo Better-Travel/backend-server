@@ -1,6 +1,6 @@
-using BetterTravel.Application.Features.CityEvents.Dtos;
+using BetterTravel.Application.Features.Cities.Events.Dtos;
 
-namespace BetterTravel.Application.Features.CityEvents;
+namespace BetterTravel.Application.Features.Cities.Events;
 
 public class CityEventsFetcher(IEnumerable<ICityClient> cityClients) : ICityEventsFetcher
 {

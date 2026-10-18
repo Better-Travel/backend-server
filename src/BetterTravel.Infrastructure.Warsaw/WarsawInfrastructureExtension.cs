@@ -1,4 +1,4 @@
-using BetterTravel.Application.Features.CityEvents;
+using BetterTravel.Application.Features.Cities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
