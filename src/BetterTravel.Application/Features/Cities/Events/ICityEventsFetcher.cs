@@ -4,5 +4,5 @@ namespace BetterTravel.Application.Features.Cities.Events;
 
 public interface ICityEventsFetcher
 {
-    Task<IReadOnlyCollection<CityEventDto>> FetchAsync(EventFetchFilterDto filter);
+    Task<IReadOnlyCollection<CityEventDto>> FetchAsync(EventFetchFilterDto filter, CancellationToken cancellationToken);
 }

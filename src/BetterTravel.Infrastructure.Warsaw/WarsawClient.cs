@@ -13,12 +13,12 @@ internal class WarsawClient(
 {
     public string City => "Warsaw";
 
-    public async Task<IReadOnlyCollection<CityEvent>> GetEventsAsync()
+    public async Task<IReadOnlyCollection<CityEvent>> GetEventsAsync(CancellationToken cancellationToken)
     {
         const string endpointRequest = "action/get_bmm_kalendarz_wydarzen";
 
-        var response = await client.PostAsync(endpointRequest, null);
-        var events = await response.Content.ReadFromJsonAsync<List<WarsawEvent>>();
+        var response = await client.PostAsync(endpointRequest, null, cancellationToken);
+        var events = await response.Content.ReadFromJsonAsync<List<WarsawEvent>>(cancellationToken);
 
         if (response.IsSuccessStatusCode == false || events is null)
         {
@@ -31,18 +31,18 @@ internal class WarsawClient(
         return [.. filteredEvents.Select(EventMapper.Map)];
     }
 
-    public async Task<IReadOnlyCollection<TouristRoute>> GetTouristRoutesAsync()
+    public async Task<IReadOnlyCollection<TouristRoute>> GetTouristRoutesAsync(CancellationToken cancellationToken)
     {
         const string endpointRequest = "action/get_sbt_trasy_turystyczne";
 
-        var response = await client.PostAsync(endpointRequest, null);
+        var response = await client.PostAsync(endpointRequest, null, cancellationToken);
 
         if (response.IsSuccessStatusCode == false)
         {
             throw new Exception("Failed to fetch tourist routes");
         }
 
-        var routeResponse = await response.Content.ReadFromJsonAsync<WarsawRoutesResponse>();
+        var routeResponse = await response.Content.ReadFromJsonAsync<WarsawRoutesResponse>(cancellationToken);
         var routes = routeResponse?.Result;
 
         if (routes is null)

@@ -6,7 +6,7 @@ public interface ICityClient
 {
     string City { get; }
 
-    Task<IReadOnlyCollection<CityEvent>> GetEventsAsync();
+    Task<IReadOnlyCollection<CityEvent>> GetEventsAsync(CancellationToken cancellationToken);
 
-    Task<IReadOnlyCollection<TouristRoute>> GetTouristRoutesAsync();
+    Task<IReadOnlyCollection<TouristRoute>> GetTouristRoutesAsync(CancellationToken cancellationToken);
 }

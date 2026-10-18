@@ -4,5 +4,5 @@ namespace BetterTravel.Application.Features.Cities.TouristRoutes;
 
 public interface ICityTouristRouteFetcher
 {
-    Task<IReadOnlyCollection<TouristRouteDto>> FetchAsync(TouristRouteRequestDto request);
+    Task<IReadOnlyCollection<TouristRouteDto>> FetchAsync(TouristRouteRequestDto request, CancellationToken cancellationToken);
 }

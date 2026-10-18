@@ -6,11 +6,11 @@ namespace BetterTravel.Application.Features.Cities.Events;
 
 public class CityEventsFetcher(IEnumerable<ICityClient> cityClients) : ICityEventsFetcher
 {
-    public async Task<IReadOnlyCollection<CityEventDto>> FetchAsync(EventFetchFilterDto filter)
+    public async Task<IReadOnlyCollection<CityEventDto>> FetchAsync(EventFetchFilterDto filter, CancellationToken cancellationToken)
     {
         var client = cityClients.Single(client => string.Equals(client.City, filter.City));
 
-        var cityEvents = await client.GetEventsAsync();
+        var cityEvents = await client.GetEventsAsync(cancellationToken);
         
         if (filter.From is null || filter.To is null)
         {

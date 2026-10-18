@@ -13,20 +13,29 @@ public class WarsawLookupController(
     ) : ControllerBase
 {
     [HttpGet("/api/better-travel/warsaw/events")]
-    public async Task<ActionResult<IReadOnlyCollection<CityEventDto>>> GetEvents([FromQuery] DateTime? from, [FromQuery] DateTime? to)
+    public async Task<ActionResult<IReadOnlyCollection<CityEventDto>>> GetEvents(
+        [FromQuery] DateTime? from, 
+        [FromQuery] DateTime? to,
+        CancellationToken cancellationToken
+        )
     {
-        var events = await eventsFetcher.FetchAsync(new EventFetchFilterDto(from, to, "Warsaw"));
+        var events = await eventsFetcher.FetchAsync(
+            new EventFetchFilterDto(from, to, "Warsaw"),
+            cancellationToken
+            );
 
         return Ok(events);
     }
     
     [HttpGet("/api/better-travel/warsaw/tourist-routes")]
-    public async Task<ActionResult<IReadOnlyCollection<TouristRouteDto>>> GetTouristRoutes()
+    public async Task<ActionResult<IReadOnlyCollection<TouristRouteDto>>> GetTouristRoutes(
+        CancellationToken cancellationToken
+        )
     {
         var routes = await touristRouteFetcher.FetchAsync(new TouristRouteRequestDto
         {
             City = "Warsaw",
-        });
+        }, cancellationToken);
         
         return Ok(routes);
     }
