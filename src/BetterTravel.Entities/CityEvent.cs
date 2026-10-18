@@ -11,18 +11,16 @@ public class CityEvent
     public Uri? Url { get; set; }
 
     public IList<GeoCoordinate> Coordinates { get; set; } = [];
+
+    public string[] LocationNames { get; set; } = [];
+
+    public string[] EventCategories { get; set; } = [];
+
+    public string[] Addresses { get; set; } = [];
     
-    //public string LocationName { get; set; }
-    
-    public string? EventType { get; set; }
-    
-    public string? Address { get; set; }
-    
-    public DateTime StartDate { get; set; }
-    
-    public DateTime EndDate { get; set; }
+    public IList<Occurrence> Occurrences { get; set; } = [];
     
     public bool IsRepeatable { get; set; }
-    
-    public Uri[] Images { get; set; } = [];
+
+    public EventImage? Image { get; set; }
 }

@@ -3,7 +3,7 @@ namespace BetterTravel.Application.Features.Cities.Events.Dtos;
 public record CityEventDto(
     string Title, 
     string? Description, 
-    string Url,
+    string? Url,
     GeoCoordinateDto[] Locations,
     string[] LocationNames,
     string[] EventCategories,
